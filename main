@@ -5,13 +5,18 @@ import tkinter as tk
 root = tk.Tk()
 root.title("First GUI")
 root.geometry("400x600")
+root.resizable(False, False)
 
 #Initializing the global calulation string
 calculation = ""
 
+#Making sure the columns are evenly spaced
+for i in range(4):
+    root.columnconfigure(i, weight=1)
+
 #Creating a global variable to store the calculation
 text_result = tk.Text(root, height=3, width=30, font=("Arial", 24))
-text_result.grid(row=0, columnspan=4)
+text_result.grid(row=0, columnspan=4, sticky="nsew")
 
 #Creating a function to add the symbol to the calculation and update the text_result widget
 def add_to_calculation(symbol):
@@ -72,57 +77,39 @@ def eval_calculation():
         text_result.delete(1.0, "end")
         calculation = ""
 
+#Function to create buttons
+def create_btn(text, row, col, cmd, rowspan=1, columnspan=1):
+    btn = tk.Button(root, text=text, command=cmd, font=("Arial", 24), highlightthickness=0)
+    btn.grid(row=row, column=col, rowspan=rowspan, columnspan=columnspan, sticky="nsew", padx=0, pady=0)
+    return btn
+
 #Creating buttons with the numbers 0-9
 #We use lambda functions to pass the number to the add_to_function function when the button is clicked and not a second earlier
-btn_1 = tk.Button(root, text='1', command=lambda: add_to_calculation('1'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_1.grid(row=3, column =0)
-btn_2 = tk.Button(root, text='2', command=lambda: add_to_calculation('2'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_2.grid(row=3, column =1)
-btn_3 = tk.Button(root, text='3', command=lambda: add_to_calculation('3'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_3.grid(row=3, column =2)
-btn_4 = tk.Button(root, text='4', command=lambda: add_to_calculation('4'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_4.grid(row=4, column =0)
-btn_5 = tk.Button(root, text='5', command=lambda: add_to_calculation('5'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_5.grid(row=4, column =1)
-btn_6 = tk.Button(root, text='6', command=lambda: add_to_calculation('6'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_6.grid(row=4, column =2)
-btn_7 = tk.Button(root, text='7', command=lambda: add_to_calculation('7'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_7.grid(row=5, column =0)
-btn_8 = tk.Button(root, text='8', command=lambda: add_to_calculation('8'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_8.grid(row=5, column =1)
-btn_9 = tk.Button(root, text='9', command=lambda: add_to_calculation('9'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_9.grid(row=5, column =2)
-btn_0 = tk.Button(root, text='0', command=lambda: add_to_calculation('0'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_0.grid(row=6, column =1)
+create_btn('1', 3, 0, lambda: add_to_calculation('1'))
+create_btn('2', 3, 1, lambda: add_to_calculation('2'))
+create_btn('3', 3, 2, lambda: add_to_calculation('3'))
+create_btn('4', 4, 0, lambda: add_to_calculation('4'))
+create_btn('5', 4, 1, lambda: add_to_calculation('5'))
+create_btn('6', 4, 2, lambda: add_to_calculation('6'))
+create_btn('7', 5, 0, lambda: add_to_calculation('7'))
+create_btn('8', 5, 1, lambda: add_to_calculation('8'))
+create_btn('9', 5, 2, lambda: add_to_calculation('9'))
+create_btn('0', 6, 1, lambda: add_to_calculation('0'))
 
 #Creating the buttons for the operations
-btn_add = tk.Button(root, text='+', command = lambda: add_to_calculation('+'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_add.grid(row=3, column=3)
-btn_subtract = tk.Button(root, text='-', command = lambda: add_to_calculation('-'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_subtract.grid(row=4, column=3)
-btn_multiply = tk.Button(root, text='*', command = lambda: add_to_calculation('*'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_multiply.grid(row=5, column=3)
-btn_divide = tk.Button(root, text='/', command = lambda: add_to_calculation('/'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_divide.grid(row=6, column=3)
-btn_decimal = tk.Button(root, text='.', command = lambda: add_to_calculation('.'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_decimal.grid(row=6, column=0)
-btn_clear = tk.Button(root, text='C', command = clear_calculation, width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_clear.grid(row=1, column=3)
-btn_equals = tk.Button(root, text='=', command = eval_calculation, width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_equals.grid(row=2, column=3)
-btn_sqrt = tk.Button(root, text='√', command = lambda: add_to_calculation('sqrt('), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_sqrt.grid(row=2, column=0)
-btn_sin = tk.Button(root, text='sin', command = lambda: add_to_calculation('sin('), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_sin.grid(row=1, column=0)
-btn_cos = tk.Button(root, text='cos', command = lambda: add_to_calculation('cos('), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_cos.grid(row=1, column=1)
-btn_tan = tk.Button(root, text='tan', command = lambda: add_to_calculation('tan('), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_tan.grid(row=1, column=2)
-btn_log = tk.Button(root, text='log', command = lambda: add_to_calculation('log('), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_log.grid(row=2, column=1)
-btn_pi = tk.Button(root, text='π', command = lambda: add_to_calculation('pi'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_pi.grid(row=2, column=2)
-btn_e = tk.Button(root, text='e', command = lambda: add_to_calculation('e'), width=4, height=1, font=("Arial", 24), bd=0, relief="flat")
-btn_e.grid(row=6, column=2)
+create_btn('+', 3, 3, lambda: add_to_calculation('+'))
+create_btn('-', 4, 3, lambda: add_to_calculation('-'))
+create_btn('*', 5, 3, lambda: add_to_calculation('*'))
+create_btn('/', 6, 3, lambda: add_to_calculation('/'))
+create_btn('.', 6, 0, lambda: add_to_calculation('.'))
+create_btn('C', 1, 3, clear_calculation)
+create_btn('=', 2, 3, eval_calculation)
+create_btn('√', 1, 2, lambda: add_to_calculation('sqrt('))
+create_btn('sin', 1, 0, lambda: add_to_calculation('sin('))
+create_btn('cos', 1, 1, lambda: add_to_calculation('cos('))
+create_btn('(', 2, 0, lambda: add_to_calculation('('))
+create_btn(')', 2, 1, lambda: add_to_calculation(')'))
+create_btn('π', 2, 2, lambda: add_to_calculation('pi'))
+create_btn('e', 6, 2, lambda: add_to_calculation('e'))
 
 root.mainloop()
