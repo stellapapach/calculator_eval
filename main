@@ -1,37 +1,37 @@
 import math
 import tkinter as tk
 
-#Creating a GUI window calculator using tkinter
+# Creating a GUI window calculator using tkinter
 root = tk.Tk()
 root.title("First GUI")
 root.geometry("400x600")
 root.resizable(False, False)
 
-#Initializing the global calulation string
+# Initializing the global calculation string
 calculation = ""
 
-#Making sure the columns are evenly spaced
+# Making sure the columns are evenly spaced
 for i in range(4):
     root.columnconfigure(i, weight=1)
 
-#Creating a global variable to store the calculation
+# Creating a global variable to store the calculation
 text_result = tk.Text(root, height=3, width=30, font=("Arial", 24))
 text_result.grid(row=0, columnspan=4, sticky="nsew")
 
-#Creating a function to add the symbol to the calculation and update the text_result widget
+# Creating a function to add the symbol to the calculation and update the text_result widget
 def add_to_calculation(symbol):
     global calculation
     calculation += str(symbol)
     text_result.delete(1.0, "end")
     text_result.insert(1.0, calculation)
 
-#Creating a function to clear the calculation and update the text_result widget
+# Creating a function to clear the calculation and update the text_result widget
 def clear_calculation():
     global calculation
     calculation = ""
     text_result.delete(1.0, "end")
 
-#Creating a safe dictionary of allowed functions and constants from the math module
+# Creating a safe dictionary of allowed functions and constants from the math module
 safe_dictionary = {
     "sqrt": math.sqrt,
     "sin": math.sin,
@@ -42,32 +42,32 @@ safe_dictionary = {
     "e": math.e
 }
 
-#Creating a function to evaluate the calculation and update the text_result widget
+# Creating a function to evaluate the calculation and update the text_result widget
 def eval_calculation():
     global calculation
 
-    #Evaluating the user input in a safe environment
+    # Evaluating the user input in a safe environment
     try:
         result = str(eval(calculation, safe_dictionary))
         calculation = result
         text_result.delete(1.0, "end")
         text_result.insert(1.0, result)
-    #If the user tries to divide by zero, print an error message
+    # If the user tries to divide by zero, print an error message
     except ZeroDivisionError:
         text_result.delete(1.0, "end")
         text_result.insert(1.0, "Error")
         calculation = ""
-    #If the user does a math domain error, print an error message
+    # If the user does a math domain error, print an error message
     except ValueError as e:
         text_result.delete(1.0, "end")
         text_result.insert(1.0, f"Error: {e}")
         calculation = ""
-    #If the user inputs invalid syntax, print an error message
+    # If the user inputs invalid syntax, print an error message
     except SyntaxError:
         text_result.delete(1.0, "end")
         text_result.insert(1.0, "Error")
         calculation = ""
-    #If there is any other unknown error, print an error message
+    # If there is any other unknown error, print an error message
     except Exception as e:
         text_result.delete(1.0, "end")
         text_result.insert(1.0, f"Error: {e}")
@@ -77,14 +77,13 @@ def eval_calculation():
         text_result.delete(1.0, "end")
         calculation = ""
 
-#Function to create buttons
+# Function to create buttons
 def create_btn(text, row, col, cmd, rowspan=1, columnspan=1):
     btn = tk.Button(root, text=text, command=cmd, font=("Arial", 24), highlightthickness=0)
     btn.grid(row=row, column=col, rowspan=rowspan, columnspan=columnspan, sticky="nsew", padx=0, pady=0)
     return btn
 
-#Creating buttons with the numbers 0-9
-#We use lambda functions to pass the number to the add_to_function function when the button is clicked and not a second earlier
+# Creating buttons with the numbers 0-9
 create_btn('1', 3, 0, lambda: add_to_calculation('1'))
 create_btn('2', 3, 1, lambda: add_to_calculation('2'))
 create_btn('3', 3, 2, lambda: add_to_calculation('3'))
@@ -96,7 +95,7 @@ create_btn('8', 5, 1, lambda: add_to_calculation('8'))
 create_btn('9', 5, 2, lambda: add_to_calculation('9'))
 create_btn('0', 6, 1, lambda: add_to_calculation('0'))
 
-#Creating the buttons for the operations
+# Creating the buttons for the operations
 create_btn('+', 3, 3, lambda: add_to_calculation('+'))
 create_btn('-', 4, 3, lambda: add_to_calculation('-'))
 create_btn('*', 5, 3, lambda: add_to_calculation('*'))
